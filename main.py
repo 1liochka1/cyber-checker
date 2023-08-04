@@ -91,6 +91,7 @@ def get_reward(key, proxy=None):
         'query': '\n    query checkSeason1Eligibility {\n  cyberRewardEligibility {\n    total\n    eligibility {\n      type\n      count\n      detail {\n        value\n        amount\n        chainId\n        type\n      }\n    }\n  }\n}\n    ',
         'operationName': 'checkSeason1Eligibility',
     }
+
     try:
         response = requests.post('https://api.cyberconnect.dev/profile/', headers=headers, json=json_data,
                                  proxies=proxy)
@@ -123,7 +124,6 @@ def main():
     print(f'\n{" " * 32}автор - https://t.me/iliocka{" " * 32}\n')
     with open("keys.txt", "r") as f:
         keys = [row.strip() for row in f]
-    random.shuffle(keys)
     with open("proxies.txt", "r") as f:
         proxies = [row.strip() for row in f]
 
@@ -136,6 +136,9 @@ def main():
 
         res = get_reward(key, proxy)
         write_to_csv(*res)
+        time_ = random.randint(5, 30)
+        logger.info(f'cплю {time_} cекунд...')
+        time.sleep(time_)
 
     logger.success(f'Успешно проверил {len(keys)} кошельков...')
     logger.success(f'muнетинг закончен...')
